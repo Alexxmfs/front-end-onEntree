@@ -11,52 +11,35 @@ const CriarLocal = () => {
   const [apelido, setApelido] = useState("");
   const [tipo, setTipo] = useState("");
   const [cnpj, setCnpj] = useState("");
-  const [localizacao, setLocalizacao] = useState({
-    cidade: "",
-    estado: "",
-    cep: "",
-    endereco: "",
-    complemento: "",
-  });
-  const [contato, setContato] = useState({ email: "", telefone: "" });
-  const [entrada, setEntrada] = useState({ nome_entrada: "" });
-  const [catraca, setCatraca] = useState({ nome_catraca: "" });
+  const [cidade, setCidade] = useState("");
+  const [estado, setEstado] = useState("");
+  const [cep, setCep] = useState("");
+  const [complemento, setComplemento] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [email, setEmail] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [nome_entrada, setEntrada] = useState("");
+  const [nome_catraca, setCatraca] = useState("");
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     try {
       // Criar Local
-      const { data } = await axios.post("http://localhost:5000/criar-locais", {
+      await axios.post("http://localhost:5000/criar-locais", {
         nome,
         apelido,
         tipo,
         cnpj,
-      });
-      const localId = data.id; // Assumindo que o ID do local é retornado
-
-      // Criar Localização
-      await axios.post("http://localhost:5000/criar-localizacoes", {
-        ...localizacao,
-        id_local: localId,
-      });
-
-      // Criar Contato
-      await axios.post("http://localhost:5000/criar-contatos", {
-        ...contato,
-        id_local: localId,
-      });
-
-      // Criar Entrada
-      await axios.post("http://localhost:5000/criar-entradas", {
-        ...entrada,
-        id_local: localId,
-      });
-
-      // Criar Catraca
-      await axios.post("http://localhost:5000/criar-catracas", {
-        ...catraca,
-        id_local: localId,
+        cidade,
+        estado,
+        cep,
+        complemento,
+        endereco,
+        email,
+        telefone,
+        nome_entrada,
+        nome_catraca
       });
 
       // Limpar os campos após a criação
@@ -64,10 +47,15 @@ const CriarLocal = () => {
       setApelido("");
       setTipo("");
       setCnpj("");
-      setLocalizacao({ cidade: "", estado: "", cep: "", endereco: "", complemento: "" });
-      setContato({ email: "", telefone: "" });
-      setEntrada({ nome_entrada: "" });
-      setCatraca({ nome_catraca: "" });
+      setCidade("");
+      setEstado("");
+      setCep("");
+      setComplemento("");
+      setEndereco("");
+      setEmail("");
+      setTelefone("");
+      setEntrada("");
+      setCatraca("");
 
       alert("Local e dados associados criados com sucesso!");
     } catch (error) {
@@ -88,9 +76,7 @@ const CriarLocal = () => {
 
       <div className="max-w-3xl mx-auto bg-[#10141d] p-6 rounded-lg shadow-md">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <h4 className="text-lg text-gray-300 pb-2 pt-4">
-            Informações básicas
-          </h4>
+          <h4 className="text-lg text-gray-300 pb-2 pt-4">Informações básicas</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 mb-1">Nome do local*</label>
@@ -115,9 +101,7 @@ const CriarLocal = () => {
 
             {/* Tipo e CNPJ */}
             <div>
-              <label className="block text-gray-300 mb-1">
-                Selecione um tipo*
-              </label>
+              <label className="block text-gray-300 mb-1">Selecione um tipo*</label>
               <div className="relative">
                 <select
                   className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
@@ -161,22 +145,18 @@ const CriarLocal = () => {
               <input
                 type="text"
                 placeholder="Informe a cidade"
-                value={localizacao.cidade}
-                onChange={(e) => setLocalizacao({ ...localizacao, cidade: e.target.value })}
+                value={cidade}
+                onChange={(e) => setCidade(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-gray-300 mb-1">
-                Selecione um estado*
-              </label>
+              <label className="block text-gray-300 mb-1">Selecione um estado*</label>
               <div className="relative">
                 <select
                   className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
-                  value={localizacao.estado}
-                  onChange={(e) =>
-                    setLocalizacao({ ...localizacao, estado: e.target.value })
-                  }
+                  value={estado}
+                  onChange={(e) => setEstado(e.target.value)}
                   required
                 >
                   <option value="">Selecione um estado</option>
@@ -197,8 +177,8 @@ const CriarLocal = () => {
               <input
                 type="text"
                 placeholder="Informe o CEP"
-                value={localizacao.cep}
-                onChange={(e) => setLocalizacao({ ...localizacao, cep: e.target.value })}
+                value={cep}
+                onChange={(e) => setCep(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
               />
             </div>
@@ -207,8 +187,8 @@ const CriarLocal = () => {
               <input
                 type="text"
                 placeholder="Informe o endereço"
-                value={localizacao.endereco}
-                onChange={(e) => setLocalizacao({ ...localizacao, endereco: e.target.value })}
+                value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
               />
             </div>
@@ -217,8 +197,8 @@ const CriarLocal = () => {
               <input
                 type="text"
                 placeholder="Informe o complemento"
-                value={localizacao.complemento}
-                onChange={(e) => setLocalizacao({ ...localizacao, complemento: e.target.value })}
+                value={complemento}
+                onChange={(e) => setComplemento(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
               />
             </div>
@@ -235,18 +215,18 @@ const CriarLocal = () => {
               <input
                 type="email"
                 placeholder="Informe um e-mail"
-                value={contato.email}
-                onChange={(e) => setContato({ ...contato, email: e.target.value })}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
               />
             </div>
             <div>
-              <label className="block text-gray-300 mb-1">Telefone</label>
+              <label className="block text-gray-300 mb-1">Telefone*</label>
               <input
                 type="text"
-                placeholder="Informe um telefone"
-                value={contato.telefone}
-                onChange={(e) => setContato({ ...contato, telefone: e.target.value })}
+                placeholder="Informe o telefone"
+                value={telefone}
+                onChange={(e) => setTelefone(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
               />
             </div>
@@ -268,8 +248,8 @@ const CriarLocal = () => {
                 <input
                   type="text"
                   placeholder="Insira as entradas"
-                  value={entrada.nome_entrada}
-                  onChange={(e) => setEntrada({ ...entrada, nome_entrada: e.target.value })}
+                  value={nome_entrada}
+                  onChange={(e) => setEntrada(e.target.value)}
                   className="w-full p-2 bg-gray-700 text-white rounded-l focus:outline-none focus:ring focus:ring-blue-500"
                 />
                 <button
@@ -288,8 +268,8 @@ const CriarLocal = () => {
                 <input
                   type="text"
                   placeholder="Insira as catracas"
-                  value={catraca.nome_catraca}
-                  onChange={(e) => setCatraca({ ...catraca, nome_catraca: e.target.value })}
+                  value={nome_catraca}
+                  onChange={(e) => setCatraca(e.target.value)}
                   className="w-full p-2 bg-gray-700 text-white rounded-l focus:outline-none focus:ring focus:ring-blue-500"
                 />
                 <button
@@ -302,6 +282,7 @@ const CriarLocal = () => {
             </div>
           </div>
           <div className="h-px bg-[#333B49] my-4" />
+
 
           {/* Botões */}
           <div className="flex justify-end space-x-4 pt-3">
