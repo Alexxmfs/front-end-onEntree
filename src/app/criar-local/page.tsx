@@ -1,6 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import "./criarLocal.css";
 
 const CriarLocal = () => {
@@ -16,8 +17,10 @@ const CriarLocal = () => {
 
       <div className="max-w-3xl mx-auto bg-[#10141d] p-6 rounded-lg shadow-md">
         <form className="space-y-6">
+          <h4 className="text-lg text-gray-300 pb-2 pt-4">
+            Informações básicas
+          </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Nome e Apelido */}
             <div>
               <label className="block text-gray-300 mb-1">Nome do local*</label>
               <input
@@ -60,7 +63,11 @@ const CriarLocal = () => {
             </div>
           </div>
 
+          {/* Linha de separação */}
+          <div className="h-px bg-[#333B49] my-4" />
+
           {/* Localização */}
+          <h4 className="text-lg text-gray-300 pb-2 pt-4">Localização</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 mb-1">Cidade*</label>
@@ -108,7 +115,11 @@ const CriarLocal = () => {
             </div>
           </div>
 
+          {/* Linha de separação */}
+          <div className="h-px bg-[#333B49] my-4" />
+
           {/* Contato */}
+          <h4 className="text-lg text-gray-300 pb-2 pt-4">Contato</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 mb-1">E-mail*</label>
@@ -128,7 +139,13 @@ const CriarLocal = () => {
             </div>
           </div>
 
+          {/* Linha de separação */}
+          <div className="h-px bg-[#333B49] my-4" />
+
           {/* Cadastro de entradas e catracas */}
+          <h4 className="text-lg text-gray-300 pb-2 pt-4">
+            Cadastro de entradas e catracas
+          </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 mb-1">
@@ -142,9 +159,9 @@ const CriarLocal = () => {
                 />
                 <button
                   type="button"
-                  className="bg-blue-500 p-2 rounded-r text-white focus:outline-none"
+                  className="bg-[#051D41] p-2 rounded-r text-white focus:outline-none"
                 >
-                  <FontAwesomeIcon icon={faPlus} className="text-lg" />
+                  <FontAwesomeIcon icon={faPlus} className="w-4" />
                 </button>
               </div>
             </div>
@@ -160,25 +177,26 @@ const CriarLocal = () => {
                 />
                 <button
                   type="button"
-                  className="bg-blue-500 p-2 rounded-r text-white focus:outline-none"
+                  className="bg-[#051D41] p-2 rounded-r text-white focus:outline-none"
                 >
-                  <FontAwesomeIcon icon={faPlus} className="text-lg" />
+                  <FontAwesomeIcon icon={faPlus} className="w-4" />
                 </button>
               </div>
             </div>
           </div>
+          <div className="h-px bg-[#333B49] my-4" />
 
           {/* Botões */}
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-4 pt-3">
             <button
               type="button"
-              className="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 focus:outline-none"
+              className="px-8 py-2 bg-[#10141d] border border-[#EBF0F9] text-[#EBF0F9] text-lg rounded hover:bg-[#1c1f24] focus:outline-none"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+              className="px-8 py-2 bg-[#EBF0F9] text-[#333B49] rounded hover:bg-[#d1e1f3] focus:outline-none font-semibold text-lg"
             >
               Cadastrar
             </button>
