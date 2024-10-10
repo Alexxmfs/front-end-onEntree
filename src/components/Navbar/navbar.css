@@ -95,3 +95,29 @@
         margin-right: 1rem; /* Mantém o alinhamento em telas menores */
     }
 }
+
+
+
+
+
+
+
+/* Media Queries para Responsividade */
+@media (max-width: 1400px) {
+    .my-navbar-nav {
+        font-size: 1rem; /* Ajuste o tamanho do texto para um valor menor */
+    }
+    .my-navbar-brand{
+        padding-left: 3rem;
+    }
+    .my-navbar-nav{
+        margin-left: 4rem;
+        padding-top: 5px;
+        display: flex;
+        list-style: none;
+        justify-content: flex-start; 
+    }
+    .my-navbar-right{
+        margin-right: 2rem;
+    }
+}
