@@ -1,0 +1,97 @@
+.tamanho-dropdown{
+    width: 20px;
+}
+  
+  
+  
+  
+
+.my-navbar {
+    color: #fff;
+    padding: 1rem 0;
+}
+
+.my-container {
+    padding-top: 15px;
+    display: flex;
+    align-items: center; /* Alinha os itens verticalmente */
+    justify-content: space-between; /* Espaça os itens para as extremidades */
+    padding-right: 2rem; /* Adiciona um espaçamento à direita para evitar quebra de layout */
+}
+
+.my-navbar-brand {
+    font-size: 2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+    padding-left: 10rem; 
+}
+
+.my-navbar-nav {
+    padding-top: 12px;
+    font-size: 1.3rem;
+    display: flex;
+    list-style: none;
+    justify-content: flex-start; /* Alinha os itens à esquerda */
+    margin: 0; /* Remove a margem padrão do ul */
+    margin-left: 10rem; /* Ajustado para um valor menor para evitar quebra */
+}
+
+.nav-item {
+    margin-right: 3rem;
+}
+
+/* Adiciona espaçamento entre a logo e o primeiro item do menu */
+.my-navbar-nav .nav-item:first-child {
+    margin-left: 2rem; /* Ajuste o valor conforme necessário */
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.my-navbar-right {
+    padding-top: 12px;
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Isso empurra o conteúdo para a extrema direita */
+    margin-right: 7rem; /* Alinha a parte direita com o restante da my-navbar */
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.user-image {
+    width: 40px; /* Ajuste o tamanho da imagem do usuário */
+    height: 40px;
+    border-radius: 50%; /* Torna a imagem redonda */
+    margin-right: 0.5rem; /* Espaçamento entre a imagem e o texto */
+}
+
+.user-name {
+    color: #fff; /* Cor do texto do nome */
+    margin-right: 0.5rem; /* Espaçamento entre o texto e a seta */
+}
+
+.dropdown-icon {
+    color: #fff; /* Cor da seta */
+    font-size: 1rem; /* Tamanho da seta */
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+    .my-navbar-brand {
+        padding-left: 1rem; /* Reduz o padding em telas menores */
+    }
+
+    .my-navbar-nav {
+        margin-left: 1rem; /* Reduzir a margem à esquerda em telas menores */
+    }
+
+    .my-navbar-right {
+        margin-right: 1rem; /* Mantém o alinhamento em telas menores */
+    }
+}
