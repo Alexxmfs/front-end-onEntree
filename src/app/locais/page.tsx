@@ -16,10 +16,12 @@ interface Local {
 
 const Locais = () => {
   const [locais, setLocais] = useState<Local[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para o termo de pesquisa
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10; // Número de locais por página
 
   useEffect(() => {
+    // Chama a rota de locais ao carregar o componente
     axios
       .get("http://localhost:5000/locais")
       .then((response) => {
@@ -30,6 +32,36 @@ const Locais = () => {
         console.error("Erro ao buscar locais:", error);
       });
   }, []);
+
+  // Função para pesquisar locais
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+
+    // Chama a rota de pesquisa quando o termo de pesquisa é alterado
+    if (value) {
+      axios
+        .get(`http://localhost:5000/pesquisar-locais?nome=${value}`)
+        .then((response) => {
+          const data = Array.isArray(response.data) ? response.data : [];
+          setLocais(data);
+        })
+        .catch((error) => {
+          console.error("Erro ao pesquisar locais:", error);
+        });
+    } else {
+      // Se o campo de pesquisa estiver vazio, re-carrega todos os locais
+      axios
+        .get("http://localhost:5000/locais")
+        .then((response) => {
+          const data = Array.isArray(response.data) ? response.data : [];
+          setLocais(data);
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar locais:", error);
+        });
+    }
+  };
 
   // Calcular o total de páginas
   const totalPages = Math.ceil(locais.length / itemsPerPage);
@@ -71,6 +103,8 @@ const Locais = () => {
                 type="text"
                 placeholder="Pesquise por nome do local"
                 className="bg-transparent focus:outline-none text-gray-300 w-full"
+                value={searchTerm} // O valor do input é o termo de pesquisa
+                onChange={handleSearch} // Chama a função de pesquisa ao mudar o input
               />
             </div>
             <a href="/criar-local" className="ml-auto bg-[#EBF0F9] text-[#10141d] hover:bg-[#D0D8E1] hover:text-[#252d3f] hover:shadow-lg transition duration-300 ease-in-out px-4 py-2 rounded-lg flex items-center text-xl font-semibold">
