@@ -1,3 +1,17 @@
 body{
     background-color: #191E28;
 }
+
+.cor-icon-search{
+    color: #6d99fb;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.icon-options{
+    color: #6d99fb;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
