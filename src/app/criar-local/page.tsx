@@ -2,8 +2,11 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronDown,
+  faPlus,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import "./criarLocal.css";
 
 const CriarLocal = () => {
@@ -18,8 +21,36 @@ const CriarLocal = () => {
   const [endereco, setEndereco] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
-  const [nome_entrada, setEntrada] = useState("");
-  const [nome_catraca, setCatraca] = useState("");
+  const [nomeEntrada, setNomeEntrada] = useState("");
+  const [nomeCatraca, setNomeCatraca] = useState("");
+  const [entradas, setEntradas] = useState<string[]>([]);
+  const [catracas, setCatracas] = useState<string[]>([]);
+
+  const addEntrada = () => {
+    if (nomeEntrada) {
+      setEntradas([...entradas, nomeEntrada]);
+      setNomeEntrada("");
+    }
+  };
+
+  const addCatraca = () => {
+    if (nomeCatraca) {
+      setCatracas([...catracas, nomeCatraca]);
+      setNomeCatraca("");
+    }
+  };
+
+  const removeEntrada = (index: number) => {
+    const novasEntradas = [...entradas];
+    novasEntradas.splice(index, 1);
+    setEntradas(novasEntradas);
+  };
+
+  const removeCatraca = (index: number) => {
+    const novasCatracas = [...catracas];
+    novasCatracas.splice(index, 1);
+    setCatracas(novasCatracas);
+  };
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -37,8 +68,8 @@ const CriarLocal = () => {
         endereco,
         email,
         telefone,
-        nome_entrada,
-        nome_catraca
+        nome_entrada: entradas.join(","),
+        nome_catraca: catracas.join(","),
       });
 
       setNome("");
@@ -52,8 +83,8 @@ const CriarLocal = () => {
       setEndereco("");
       setEmail("");
       setTelefone("");
-      setEntrada("");
-      setCatraca("");
+      setEntradas([]);
+      setCatracas([]);
 
       alert("Local e dados associados criados com sucesso!");
     } catch (error) {
@@ -74,7 +105,9 @@ const CriarLocal = () => {
 
       <div className="max-w-3xl mx-auto bg-[#10141d] p-6 rounded-lg shadow-md">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <h4 className="text-lg text-gray-300 pb-2 pt-4">Informações básicas</h4>
+          <h4 className="text-lg text-gray-300 pb-2 pt-4">
+            Informações básicas
+          </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 mb-1">Nome do local*</label>
@@ -98,7 +131,9 @@ const CriarLocal = () => {
             </div>
 
             <div>
-              <label className="block text-gray-300 mb-1">Selecione um tipo*</label>
+              <label className="block text-gray-300 mb-1">
+                Selecione um tipo*
+              </label>
               <div className="relative">
                 <select
                   className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
@@ -146,7 +181,9 @@ const CriarLocal = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-300 mb-1">Selecione um estado*</label>
+              <label className="block text-gray-300 mb-1">
+                Selecione um estado*
+              </label>
               <div className="relative">
                 <select
                   className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
@@ -191,7 +228,7 @@ const CriarLocal = () => {
               <label className="block text-gray-300 mb-1">Complemento</label>
               <input
                 type="text"
-                placeholder="Informe o complemento"
+                placeholder="Informe um complemento"
                 value={complemento}
                 onChange={(e) => setComplemento(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
@@ -207,7 +244,7 @@ const CriarLocal = () => {
               <label className="block text-gray-300 mb-1">E-mail*</label>
               <input
                 type="email"
-                placeholder="Informe um e-mail"
+                placeholder="Informe o e-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
@@ -228,52 +265,89 @@ const CriarLocal = () => {
           <div className="h-px bg-[#333B49] my-4" />
 
           <h4 className="text-lg text-gray-300 pb-2 pt-4">
-            Cadastro de entradas e catracas
+            Entradas e Catracas
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 mb-1">
-                Cadastre as entradas
+                Nome das entradas*
               </label>
-              <div className="flex">
+              <div className="flex items-center space-x-0">
                 <input
                   type="text"
-                  placeholder="Insira as entradas"
-                  value={nome_entrada}
-                  onChange={(e) => setEntrada(e.target.value)}
-                  className="w-full p-2 bg-gray-700 text-white rounded-l focus:outline-none focus:ring focus:ring-blue-500"
+                  placeholder="Informe o nome da entrada"
+                  value={nomeEntrada}
+                  onChange={(e) => setNomeEntrada(e.target.value)}
+                  className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
                 />
                 <button
                   type="button"
-                  className="bg-[#051D41] p-2 rounded-r text-white focus:outline-none"
+                  className="px-3 py-2 bg-[#051D41] text-white rounded hover:bg-b"
+                  onClick={addEntrada}
                 >
-                  <FontAwesomeIcon icon={faPlus} className="w-4" />
+                  <FontAwesomeIcon icon={faPlus} />
                 </button>
               </div>
+              <ul className="mt-2 flex flex-wrap space-x-2">
+                {entradas.map((entrada, index) => (
+                  <li
+                    key={index}
+                    className="inline-flex justify-between items-center bg-[#9ED0E6] px-3 py-2 rounded-lg text-[#10141D]"
+                    style={{ width: "auto" }}
+                  >
+                    <span>{entrada}</span>
+                    <button
+                      type="button"
+                      className="ml-2 text-[#10141D] hover:text-[#909091]"
+                      onClick={() => removeEntrada(index)}
+                    >
+                      <FontAwesomeIcon icon={faXmark} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div>
               <label className="block text-gray-300 mb-1">
-                Cadastre as catracas
+                Nome das catracas*
               </label>
-              <div className="flex">
+              <div className="flex items-center space-x-0">
                 <input
                   type="text"
-                  placeholder="Insira as catracas"
-                  value={nome_catraca}
-                  onChange={(e) => setCatraca(e.target.value)}
-                  className="w-full p-2 bg-gray-700 text-white rounded-l focus:outline-none focus:ring focus:ring-blue-500"
+                  placeholder="Informe o nome da catraca"
+                  value={nomeCatraca}
+                  onChange={(e) => setNomeCatraca(e.target.value)}
+                  className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
                 />
                 <button
                   type="button"
-                  className="bg-[#051D41] p-2 rounded-r text-white focus:outline-none"
+                  className="icon-plus px-3 py-2 bg-[#051D41] text-white rounded hover:bg-blue-600"
+                  onClick={addCatraca}
                 >
-                  <FontAwesomeIcon icon={faPlus} className="w-4" />
+                  <FontAwesomeIcon icon={faPlus} />
                 </button>
               </div>
+              <ul className="mt-2 flex flex-wrap space-x-2">
+                {catracas.map((catraca, index) => (
+                  <li
+                    key={index}
+                    className="inline-flex justify-between items-center bg-[#9ED0E6] px-3 py-2 rounded-lg text-[#10141D]"
+                    style={{ width: "auto" }}
+                  >
+                    <span>{catraca}</span>
+                    <button
+                      type="button"
+                      className="ml-2 text-[#10141D] hover:text-[#909091]"
+                      onClick={() => removeCatraca(index)}
+                    >
+                      <FontAwesomeIcon icon={faXmark} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
           <div className="h-px bg-[#333B49] my-4" />
-
 
           <div className="flex justify-end space-x-4 pt-3">
             <button
