@@ -8,8 +8,12 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "./criarLocal.css";
+import { useRouter } from "next/navigation"; // Importe o useRouter
+
 
 const CriarLocal = () => {
+  const router = useRouter(); // Inicialize o router
+
   const [nome, setNome] = useState("");
   const [apelido, setApelido] = useState("");
   const [tipo, setTipo] = useState("");
@@ -86,7 +90,8 @@ const CriarLocal = () => {
       setEntradas([]);
       setCatracas([]);
 
-      alert("Local e dados associados criados com sucesso!");
+      // alert("Local e dados associados criados com sucesso!");
+      router.push("/locais");
     } catch (error) {
       console.error(error);
       alert("Erro ao criar local e dados associados");
