@@ -18,6 +18,7 @@ interface Local {
   cidade: string;
   estado: string;
   nome_entrada: string;
+  data_atualizacao: string;
 }
 
 const Locais = () => {
@@ -33,6 +34,14 @@ const Locais = () => {
 
   const toggleDropdown = (id: number) => {
     setSelectedLocal(selectedLocal === id ? null : id);
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   };
 
   useEffect(() => {
@@ -222,7 +231,10 @@ const Locais = () => {
                       <td className="p-3">{local.endereco}</td>
                       <td className="p-3">{`${local.cidade}; ${local.estado}`}</td>
                       <td className="p-3">{local.nome_entrada}</td>
-                      <td className="p-3">05/10/23</td>
+                      <td className="p-3">
+                        {local.data_atualizacao &&
+                          formatDate(local.data_atualizacao)}
+                      </td>
                       <td className="p-5 text-right relative">
                         <FontAwesomeIcon
                           className="cursor-pointer text-gray-400 icon-options"
