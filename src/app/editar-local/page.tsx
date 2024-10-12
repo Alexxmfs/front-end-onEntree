@@ -1,12 +1,17 @@
-"use client";
-import React, { useState } from "react";
+'use client';
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios';
+import { useRouter, useSearchParams } from 'next/navigation';
 import "./criarLocal.css";
 
-const CriarLocal = () => {
+const EditarLocal = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const id = searchParams?.get('id');
+
+  const [idLocal, setIdLocal] = useState<number | null>(null);
   const [nome, setNome] = useState("");
   const [apelido, setApelido] = useState("");
   const [tipo, setTipo] = useState("");
@@ -20,47 +25,89 @@ const CriarLocal = () => {
   const [telefone, setTelefone] = useState("");
   const [nome_entrada, setEntrada] = useState("");
   const [nome_catraca, setCatraca] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+
+
+  useEffect(() => {
+    if (id) {
+      const idNum = parseInt(id, 10);
+      setIdLocal(idNum);
+      fetchLocalData(idNum);
+    }
+  }, [id]);
+
+  const fetchLocalData = async (id: number) => {
+    try {
+      const response = await axios.get(`http://localhost:5000/locais/${id}`);
+      const localData = response.data;
+
+      setNome(localData.nome);
+      setApelido(localData.apelido);
+      setTipo(localData.tipo);
+      setCnpj(localData.cnpj);
+      setCidade(localData.cidade);
+      setEstado(localData.estado);
+      setCep(localData.cep);
+      setComplemento(localData.complemento);
+      setEndereco(localData.endereco);
+      setEmail(localData.email);
+      setTelefone(localData.telefone);
+      setEntrada(localData.nome_entrada);
+      setCatraca(localData.nome_catraca);
+
+       setIsLoading(false); // Data fetched, set loading to false
+
+    } catch (error) {
+      console.error("Error fetching local data:", error);
+      setIsLoading(false); // Set loading to false even on error
+    }
+  };
+
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    if (!idLocal) {
+      console.error("Local ID not found.");
+      return;
+    }
+
+    const dados = {
+      nome,
+      apelido,
+      tipo,
+      cnpj,
+      cidade,
+      estado,
+      cep,
+      complemento,
+      endereco,
+      email,
+      telefone,
+      nome_entrada,
+      nome_catraca
+    };
+
     try {
-      await axios.post("http://localhost:5000/criar-locais", {
-        nome,
-        apelido,
-        tipo,
-        cnpj,
-        cidade,
-        estado,
-        cep,
-        complemento,
-        endereco,
-        email,
-        telefone,
-        nome_entrada,
-        nome_catraca
-      });
+      const response = await axios.put(`http://localhost:5000/atualizar-locais/${idLocal}`, dados);
 
-      setNome("");
-      setApelido("");
-      setTipo("");
-      setCnpj("");
-      setCidade("");
-      setEstado("");
-      setCep("");
-      setComplemento("");
-      setEndereco("");
-      setEmail("");
-      setTelefone("");
-      setEntrada("");
-      setCatraca("");
-
-      alert("Local e dados associados criados com sucesso!");
+      if (response.status === 200) {
+        // Success handling (e.g., show a success message, redirect)
+         router.push('/locais?success=true'); // Redirect with success parameter
+      } else {
+        // Error handling
+        console.error("Error updating local:", response.status);
+      }
     } catch (error) {
-      console.error(error);
-      alert("Erro ao criar local e dados associados");
+      console.error("Error updating local:", error);
     }
   };
+
+
+
+  if (isLoading) {
+    return <div>Loading...</div>; // Or a better loading indicator
+  }
 
   return (
     <div className="bg-[#191E28] min-h-screen p-8">
@@ -84,6 +131,7 @@ const CriarLocal = () => {
                 onChange={(e) => setNome(e.target.value)}
                 placeholder="Informe o nome do local"
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
+                required
               />
             </div>
             <div>
@@ -143,6 +191,7 @@ const CriarLocal = () => {
                 value={cidade}
                 onChange={(e) => setCidade(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
+                required
               />
             </div>
             <div>
@@ -175,6 +224,7 @@ const CriarLocal = () => {
                 value={cep}
                 onChange={(e) => setCep(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
+                required
               />
             </div>
             <div>
@@ -185,6 +235,7 @@ const CriarLocal = () => {
                 value={endereco}
                 onChange={(e) => setEndereco(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
+                required
               />
             </div>
             <div>
@@ -201,20 +252,21 @@ const CriarLocal = () => {
 
           <div className="h-px bg-[#333B49] my-4" />
 
-          <h4 className="text-lg text-gray-300 pb-2 pt-4">Contato</h4>
+          <h4 className="text-lg text-gray-300 pb-2 pt-4">Informações de contato</h4>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-300 mb-1">E-mail*</label>
               <input
                 type="email"
-                placeholder="Informe um e-mail"
+                placeholder="Informe o e-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
+                required
               />
             </div>
             <div>
-              <label className="block text-gray-300 mb-1">Telefone*</label>
+              <label className="block text-gray-300 mb-1">Telefone</label>
               <input
                 type="text"
                 placeholder="Informe o telefone"
@@ -223,58 +275,29 @@ const CriarLocal = () => {
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
               />
             </div>
-          </div>
-
-          <div className="h-px bg-[#333B49] my-4" />
-
-          <h4 className="text-lg text-gray-300 pb-2 pt-4">
-            Cadastro de entradas e catracas
-          </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-gray-300 mb-1">
-                Cadastre as entradas
-              </label>
-              <div className="flex">
-                <input
-                  type="text"
-                  placeholder="Insira as entradas"
-                  value={nome_entrada}
-                  onChange={(e) => setEntrada(e.target.value)}
-                  className="w-full p-2 bg-gray-700 text-white rounded-l focus:outline-none focus:ring focus:ring-blue-500"
-                />
-                <button
-                  type="button"
-                  className="bg-[#051D41] p-2 rounded-r text-white focus:outline-none"
-                >
-                  <FontAwesomeIcon icon={faPlus} className="w-4" />
-                </button>
-              </div>
+              <label className="block text-gray-300 mb-1">Nome da Entrada</label>
+              <input
+                type="text"
+                placeholder="Informe o nome da entrada"
+                value={nome_entrada}
+                onChange={(e) => setEntrada(e.target.value)}
+                className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
+              />
             </div>
             <div>
-              <label className="block text-gray-300 mb-1">
-                Cadastre as catracas
-              </label>
-              <div className="flex">
-                <input
-                  type="text"
-                  placeholder="Insira as catracas"
-                  value={nome_catraca}
-                  onChange={(e) => setCatraca(e.target.value)}
-                  className="w-full p-2 bg-gray-700 text-white rounded-l focus:outline-none focus:ring focus:ring-blue-500"
-                />
-                <button
-                  type="button"
-                  className="bg-[#051D41] p-2 rounded-r text-white focus:outline-none"
-                >
-                  <FontAwesomeIcon icon={faPlus} className="w-4" />
-                </button>
-              </div>
+              <label className="block text-gray-300 mb-1">Nome da Catraca</label>
+              <input
+                type="text"
+                placeholder="Informe o nome da catraca"
+                value={nome_catraca}
+                onChange={(e) => setCatraca(e.target.value)}
+                className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
+              />
             </div>
           </div>
-          <div className="h-px bg-[#333B49] my-4" />
 
-
+          
           <div className="flex justify-end space-x-4 pt-3">
             <button
               type="button"
@@ -295,4 +318,4 @@ const CriarLocal = () => {
   );
 };
 
-export default CriarLocal;
+export default EditarLocal;

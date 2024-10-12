@@ -1,10 +1,14 @@
-'use client'
+"use client";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faEllipsisV, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faEllipsisV,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast"; 
-import { useSearchParams } from "next/navigation";
+import { toast, Toaster } from "react-hot-toast";
+import { useSearchParams, useRouter } from "next/navigation";
 import "./locais.css";
 
 interface Local {
@@ -25,6 +29,7 @@ const Locais = () => {
   const searchParams = useSearchParams();
   const success = searchParams.get("success");
   const [selectedLocal, setSelectedLocal] = useState<number | null>(null);
+  const router = useRouter(); // Initialize useRouter
 
   const toggleDropdown = (id: number) => {
     setSelectedLocal(selectedLocal === id ? null : id);
@@ -145,6 +150,10 @@ const Locais = () => {
     }
   };
 
+  const handleEdit = (id_local: number) => {
+    router.push(`/editar-local?id=${id_local}`); // Navigate to /editar-local with the id as a query parameter
+  };
+
   const displayedLocais = locais.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -159,7 +168,9 @@ const Locais = () => {
         </h4>
         <div className="mb-4">
           <h2 className="text-4xl pb-3">Locais</h2>
-          <p className="text-gray-400 text-lg">Confira a lista de todos os locais cadastrados</p>
+          <p className="text-gray-400 text-lg">
+            Confira a lista de todos os locais cadastrados
+          </p>
         </div>
 
         <div className="bg-[#10141D] p-4 rounded-xl pt-8">
@@ -198,7 +209,8 @@ const Locais = () => {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(displayedLocais) && displayedLocais.length > 0 ? (
+                {Array.isArray(displayedLocais) &&
+                displayedLocais.length > 0 ? (
                   displayedLocais.map((local, index) => (
                     <tr
                       key={local.id_local}
@@ -222,6 +234,7 @@ const Locais = () => {
                             <ul className="py-1">
                               <li
                                 className="text-left px-4 py-3 text-gray-300 text-lg font-normal hover:bg-[#2f3746] rounded-t-lg cursor-pointer"
+                                onClick={() => handleEdit(local.id_local)} // Call handleEdit when "Edit" is clicked
                               >
                                 Edit
                               </li>
