@@ -29,6 +29,12 @@ const Locais = () => {
 
   const searchParams = useSearchParams(); // Para pegar os parâmetros da URL
   const success = searchParams.get("success"); // Verifica se o parâmetro "success" está presente
+  const [selectedLocal, setSelectedLocal] = useState<number | null>(null); // To track which dropdown is open
+
+
+  const toggleDropdown = (id: number) => {
+    setSelectedLocal(selectedLocal === id ? null : id);
+  };
 
   useEffect(() => {
     if (success && !showAlert) {
@@ -194,36 +200,49 @@ const Locais = () => {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(displayedLocais) &&
-                displayedLocais.length > 0 ? (
-                  displayedLocais.map((local, index) => (
-                    <tr
-                      key={local.id_local}
-                      className={`${
-                        index % 2 === 0 ? "bg-[#333B49]" : "bg-[#10141D]"
-                      } text-gray-300`}
-                    >
-                      <td className="p-3">{local.nome}</td>
-                      <td className="p-3">{local.endereco}</td>
-                      <td className="p-3">{`${local.cidade}; ${local.estado}`}</td>
-                      <td className="p-3">{local.nome_entrada}</td>
-                      <td className="p-3">05/10/23</td>
-                      <td className="p-5 text-right">
-                        <FontAwesomeIcon
-                          className="cursor-pointer text-gray-400 icon-options"
-                          icon={faEllipsisV}
-                        />
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={6} className="p-4 text-center text-gray-400">
-                      Nenhum local encontrado.
+              {Array.isArray(displayedLocais) &&
+              displayedLocais.length > 0 ? (
+                displayedLocais.map((local, index) => (
+                  <tr
+                    key={local.id_local}
+                    className={`${
+                      index % 2 === 0 ? "bg-[#333B49]" : "bg-[#10141D]"
+                    } text-gray-300`}
+                  >
+                    <td className="p-3">{local.nome}</td>
+                    <td className="p-3">{local.endereco}</td>
+                    <td className="p-3">{`${local.cidade}; ${local.estado}`}</td>
+                    <td className="p-3">{local.nome_entrada}</td>
+                    <td className="p-3">05/10/23</td>
+                    <td className="p-5 text-right relative">
+                      <FontAwesomeIcon
+                        className="cursor-pointer text-gray-400 icon-options"
+                        icon={faEllipsisV}
+                        onClick={() => toggleDropdown(local.id_local)}
+                      />
+                      {selectedLocal === local.id_local && (
+                        <div className="absolute right-0 mt-2 w-32 bg-[#191E28] rounded-lg shadow-lg z-10">
+                          <ul className="py-1">
+                            <li className="text-left px-4 py-3 text-gray-300 text-lg font-normal hover:bg-[#2f3746] rounded-t-lg cursor-pointer">
+                              Edit
+                            </li>
+                            <li className="text-left px-4 py-3 text-gray-300 text-lg font-normal hover:bg-[#2f3746] rounded-b-lg cursor-pointer">
+                              Apagar
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </td>
                   </tr>
-                )}
-              </tbody>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="p-4 text-center text-gray-400">
+                    Nenhum local encontrado.
+                  </td>
+                </tr>
+              )}
+            </tbody>
             </table>
           </div>
 
