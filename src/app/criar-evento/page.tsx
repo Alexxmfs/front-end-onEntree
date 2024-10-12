@@ -195,12 +195,12 @@
             </div>
 
             <div className="flex justify-end space-x-4 pt-3">
-              <button
+              <a href="/eventos"
                 type="button"
                 className="px-8 py-2 bg-[#10141d] border border-[#EBF0F9] text-[#EBF0F9] text-lg rounded hover:bg-[#1c1f24] focus:outline-none"
               >
                 Cancelar
-              </button>
+              </a>
               <button
                 type="submit"
                 className="px-8 py-2 bg-[#EBF0F9] text-[#333B49] rounded hover:bg-[#d1e1f3] focus:outline-none font-semibold text-lg"

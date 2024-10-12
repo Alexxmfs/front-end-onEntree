@@ -5,6 +5,7 @@ import {
   faSearch,
   faEllipsisV,
   faCheck,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
@@ -20,9 +21,9 @@ interface Evento {
   id_local: number;
   data_atualizacao: string;
   local: {
-    nome: string; 
-    endereco: string; 
-    portões: string; 
+    nome: string;
+    endereco: string;
+    portões: string;
   };
 }
 
@@ -35,7 +36,12 @@ const Eventos = () => {
   const searchParams = useSearchParams();
   const success = searchParams.get("success");
   const [selectedEvento, setSelectedEvento] = useState<number | null>(null);
-  const router = useRouter(); 
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] =
+    useState<boolean>(false);
+  const [eventoToBeDeleted, setEventoToBeDeleted] = useState<Evento | null>(
+    null
+  );
+  const router = useRouter();
 
   const toggleDropdown = (id: number) => {
     setSelectedEvento(selectedEvento === id ? null : id);
@@ -51,17 +57,16 @@ const Eventos = () => {
 
   useEffect(() => {
     if (success && !showAlert) {
-      if (success === "true") { 
+      if (success === "true") {
         showSuccessToast("Um novo evento foi adicionado");
       } else if (success === "edited") {
         showSuccessToast("uma nova edição foi salva");
       }
-      setShowAlert(true); 
+      setShowAlert(true);
 
       const updatedSearchParams = new URLSearchParams(searchParams);
       updatedSearchParams.delete("success");
       router.replace(`?${updatedSearchParams.toString()}`);
-  
     }
   }, [success, showAlert, router, searchParams]);
 
@@ -71,7 +76,7 @@ const Eventos = () => {
 
   const fetchEventos = () => {
     axios
-      .get("http://localhost:5000/eventos") 
+      .get("http://localhost:5000/eventos")
       .then((response) => {
         const data = Array.isArray(response.data) ? response.data : [];
         setEventos(data);
@@ -81,7 +86,7 @@ const Eventos = () => {
       });
   };
 
-  const showSuccessToast = (message: string) => { 
+  const showSuccessToast = (message: string) => {
     toast.success(
       <div
         style={{ display: "flex", alignItems: "center", marginRight: "75px" }}
@@ -91,7 +96,7 @@ const Eventos = () => {
           <div
             style={{ fontSize: "14px", color: "#ecf0f1", paddingTop: "4px" }}
           >
-            {message} 
+            {message}
           </div>
         </div>
       </div>,
@@ -129,21 +134,32 @@ const Eventos = () => {
     );
   };
 
-  const deleteEvento = (id_evento: number) => {
-    axios
-      .delete(`http://localhost:5000/deletar-eventos/${id_evento}`)
-      .then((response) => {
+  const handleDeleteConfirmation = (evento: Evento) => {
+    setEventoToBeDeleted(evento);
+    setIsConfirmationModalOpen(true);
+  };
+
+  const deleteEvento = async () => {
+    if (eventoToBeDeleted) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/deletar-eventos/${eventoToBeDeleted.id_evento}`
+        );
         if (response.status === 200) {
           toast.success("Evento deletado com sucesso!");
-          fetchEventos(); 
+          fetchEventos();
         } else {
           toast.error("Erro ao deletar o evento.");
         }
-      })
-      .catch((error) => {
+        setIsConfirmationModalOpen(false);
+        setEventoToBeDeleted(null);
+      } catch (error) {
         console.error("Erro ao deletar evento:", error);
         toast.error("Erro ao deletar o evento.");
-      });
+        setIsConfirmationModalOpen(false);
+        setEventoToBeDeleted(null);
+      }
+    }
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -161,7 +177,7 @@ const Eventos = () => {
           console.error("Erro ao pesquisar eventos:", error);
         });
     } else {
-      fetchEventos(); 
+      fetchEventos();
     }
   };
 
@@ -174,7 +190,7 @@ const Eventos = () => {
   };
 
   const handleEdit = (id_evento: number) => {
-    router.push(`/editar-evento?id=${id_evento}`); 
+    router.push(`/editar-evento?id=${id_evento}`);
   };
 
   const displayedEventos = eventos.slice(
@@ -245,12 +261,8 @@ const Eventos = () => {
                       <td className="p-3">{evento.nome}</td>
                       <td className="p-3">{evento.tipo}</td>
                       <td className="p-3">{evento.local?.nome}</td>
-                      <td className="p-3">
-                        {evento.local?.endereco} 
-                      </td>
-                      <td className="p-3">
-                        {evento.local?.portões} 
-                      </td>
+                      <td className="p-3">{evento.local?.endereco}</td>
+                      <td className="p-3">{evento.local?.portões}</td>
                       <td className="p-3">
                         {evento.data_evento && formatDate(evento.data_evento)}
                       </td>
@@ -271,7 +283,7 @@ const Eventos = () => {
                               </li>
                               <li
                                 className="text-left px-4 py-3 text-gray-300 text-lg font-normal hover:bg-[#2f3746] rounded-b-lg cursor-pointer"
-                                onClick={() => deleteEvento(evento.id_evento)} // Chama a função de deletar
+                                onClick={() => handleDeleteConfirmation(evento)} // Chama a função de deletar
                               >
                                 Apagar
                               </li>
@@ -308,6 +320,52 @@ const Eventos = () => {
             ))}
           </div>
         </div>
+
+        {/* Modal de confirmação */}
+        {isConfirmationModalOpen && (
+          <div
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50" // Adiciona o fundo escuro
+            onClick={() => setIsConfirmationModalOpen(false)}
+          >
+            <div
+              className="bg-gray-800 rounded-lg p-6 shadow-lg z-10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-semibold text-gray-300">
+                  Apagar evento
+                </h2>
+                <button
+                  className="text-gray-400"
+                  onClick={() => setIsConfirmationModalOpen(false)}
+                >
+                  <FontAwesomeIcon icon={faXmark} />
+                </button>
+              </div>
+              <p className="text-gray-300 mb-4">
+                Você tem certeza que deseja apagar o evento{" "}
+                <span className="font-semibold text-white">
+                  &quot;{eventoToBeDeleted?.nome}&quot;
+                </span>
+                ?
+              </p>
+              <div className="flex justify-end space-x-2">
+                <button
+                  className="bg-[#333B49] hover:bg-gray-700 text-white py-2 px-4 rounded-lg border border-[#EBF0F9]"
+                  onClick={() => setIsConfirmationModalOpen(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="bg-[#6D99FB] hover:bg-[#467dfc] text-[#333B49] font-semibold py-2 px-4 rounded-lg"
+                  onClick={deleteEvento}
+                >
+                  Apagar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
