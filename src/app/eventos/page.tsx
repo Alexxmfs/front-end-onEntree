@@ -20,9 +20,9 @@ interface Evento {
   id_local: number;
   data_atualizacao: string;
   local: {
-    nome: string; // Add the local name here
-    endereco: string; // Add the local's address here
-    portões: string; // Add the local's gates here
+    nome: string; 
+    endereco: string; 
+    portões: string; 
   };
 }
 
@@ -35,7 +35,7 @@ const Eventos = () => {
   const searchParams = useSearchParams();
   const success = searchParams.get("success");
   const [selectedEvento, setSelectedEvento] = useState<number | null>(null);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter(); 
 
   const toggleDropdown = (id: number) => {
     setSelectedEvento(selectedEvento === id ? null : id);
@@ -51,14 +51,13 @@ const Eventos = () => {
 
   useEffect(() => {
     if (success && !showAlert) {
-      if (success === "true") { // Check the value of success
+      if (success === "true") { 
         showSuccessToast("Um novo evento foi adicionado");
-      } else if (success === "edited") { // Check for "edited" value
+      } else if (success === "edited") {
         showSuccessToast("uma nova edição foi salva");
       }
-      setShowAlert(true); // Prevent showing toast multiple times
-  
-      // Remove 'success' from the URL after processing.  This allows showing the correct toast on page refresh.
+      setShowAlert(true); 
+
       const updatedSearchParams = new URLSearchParams(searchParams);
       updatedSearchParams.delete("success");
       router.replace(`?${updatedSearchParams.toString()}`);
@@ -82,7 +81,7 @@ const Eventos = () => {
       });
   };
 
-  const showSuccessToast = (message: string) => { // Takes a message parameter
+  const showSuccessToast = (message: string) => { 
     toast.success(
       <div
         style={{ display: "flex", alignItems: "center", marginRight: "75px" }}
@@ -92,7 +91,7 @@ const Eventos = () => {
           <div
             style={{ fontSize: "14px", color: "#ecf0f1", paddingTop: "4px" }}
           >
-            {message} {/* Display the passed message */}
+            {message} 
           </div>
         </div>
       </div>,
@@ -136,7 +135,7 @@ const Eventos = () => {
       .then((response) => {
         if (response.status === 200) {
           toast.success("Evento deletado com sucesso!");
-          fetchEventos(); // Atualiza a lista de eventos após deletar
+          fetchEventos(); 
         } else {
           toast.error("Erro ao deletar o evento.");
         }
@@ -162,7 +161,7 @@ const Eventos = () => {
           console.error("Erro ao pesquisar eventos:", error);
         });
     } else {
-      fetchEventos(); // Se o campo de pesquisa estiver vazio, re-carrega todos os eventos
+      fetchEventos(); 
     }
   };
 
@@ -175,7 +174,7 @@ const Eventos = () => {
   };
 
   const handleEdit = (id_evento: number) => {
-    router.push(`/editar-evento?id=${id_evento}`); // Navigate to /editar-evento with the id as a query parameter
+    router.push(`/editar-evento?id=${id_evento}`); 
   };
 
   const displayedEventos = eventos.slice(
@@ -201,7 +200,7 @@ const Eventos = () => {
           <div className="flex items-center mb-4 pb-5">
             <div className="flex items-center bg-gray-700 rounded-lg px-3 py-2 w-1/3 relative">
               <FontAwesomeIcon
-                className="text-gray-400 mr-2 cor-icon-search"
+                className="text-gray-400 mr-2 cor-icon-search w-4"
                 icon={faSearch}
               />
               <input
