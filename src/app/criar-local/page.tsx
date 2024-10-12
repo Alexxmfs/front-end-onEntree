@@ -91,7 +91,7 @@ const CriarLocal = () => {
       setCatracas([]);
 
       // alert("Local e dados associados criados com sucesso!");
-      router.push("/locais");
+      router.push("/locais?success=true");
     } catch (error) {
       console.error(error);
       alert("Erro ao criar local e dados associados");

@@ -1,8 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faEllipsisV,
+  faCheck,
+} from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { toast, Toaster } from "react-hot-toast"; // Importe o Toaster
+import { useSearchParams } from "next/navigation"; // Importe useSearchParams
 import "./locais.css";
 
 interface Local {
@@ -19,9 +25,19 @@ const Locais = () => {
   const [searchTerm, setSearchTerm] = useState<string>(""); // Estado para o termo de pesquisa
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10; // Número de locais por página
+  const [showAlert, setShowAlert] = useState<boolean>(false); // Estado para controlar o alerta
+
+  const searchParams = useSearchParams(); // Para pegar os parâmetros da URL
+  const success = searchParams.get("success"); // Verifica se o parâmetro "success" está presente
 
   useEffect(() => {
-    // Chama a rota de locais ao carregar o componente
+    if (success && !showAlert) {
+      showSuccessToast(); // Exibe o toast se "success=true" estiver presente na query string
+      setShowAlert(true); // Garante que o toast não seja exibido várias vezes
+    }
+  }, [success, showAlert]);
+
+  useEffect(() => {
     axios
       .get("http://localhost:5000/locais")
       .then((response) => {
@@ -32,6 +48,55 @@ const Locais = () => {
         console.error("Erro ao buscar locais:", error);
       });
   }, []);
+
+  // Função para exibir o toast de sucesso
+  const showSuccessToast = () => {
+    toast.success(
+      <div
+        style={{ display: "flex", alignItems: "center", marginRight: "75px" }}
+      >
+        <div>
+          <span style={{ fontSize: "18px", fontWeight: "600" }}>Sucesso</span>
+          <div
+            style={{ fontSize: "14px", color: "#ecf0f1", paddingTop: "4px" }}
+          >
+            Um novo local foi adicionado
+          </div>
+        </div>
+      </div>,
+      {
+        duration: 3000,
+        position: "bottom-left",
+        style: {
+          backgroundColor: "#2F3B28",
+          color: "#ecf0f1",
+          borderLeft: "5px solid #99C766",
+          padding: "12px",
+          borderRadius: "8px",
+          display: "flex",
+          alignItems: "center",
+          width: "800px",
+        },
+        icon: (
+          <div
+            style={{
+              backgroundColor: "#99C766",
+              width: "28px",
+              height: "28px",
+              borderRadius: "50%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ color: "#2F3B28", fontSize: "15px" }}>
+              <FontAwesomeIcon icon={faCheck} />
+            </span>
+          </div>
+        ),
+      }
+    );
+  };
 
   // Função para pesquisar locais
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +146,7 @@ const Locais = () => {
 
   return (
     <div className="bg-[#191E28] min-h-screen p-6 text-white">
+      <Toaster />
       <div className="max-w-7xl mx-auto">
         <h4 className="text-gray-400 pb-12 pt-8 text-xl">
           Home / <span className="text-[#6d99fb]">Locais</span>
@@ -107,7 +173,10 @@ const Locais = () => {
                 onChange={handleSearch} // Chama a função de pesquisa ao mudar o input
               />
             </div>
-            <a href="/criar-local" className="ml-auto bg-[#EBF0F9] text-[#10141d] hover:bg-[#D0D8E1] hover:text-[#252d3f] hover:shadow-lg transition duration-300 ease-in-out px-4 py-2 rounded-lg flex items-center text-xl font-semibold">
+            <a
+              href="/criar-local"
+              className="ml-auto bg-[#EBF0F9] text-[#10141d] hover:bg-[#D0D8E1] hover:text-[#252d3f] hover:shadow-lg transition duration-300 ease-in-out px-4 py-2 rounded-lg flex items-center text-xl font-semibold"
+            >
               Adicionar local
             </a>
           </div>
@@ -125,7 +194,8 @@ const Locais = () => {
                 </tr>
               </thead>
               <tbody>
-                {Array.isArray(displayedLocais) && displayedLocais.length > 0 ? (
+                {Array.isArray(displayedLocais) &&
+                displayedLocais.length > 0 ? (
                   displayedLocais.map((local, index) => (
                     <tr
                       key={local.id_local}
@@ -162,7 +232,9 @@ const Locais = () => {
               <button
                 key={index + 1}
                 className={`px-4 py-2 mx-1 rounded-lg ${
-                  currentPage === index + 1 ? "bg-gray-700 text-gray-300" : "text-gray-300"
+                  currentPage === index + 1
+                    ? "bg-gray-700 text-gray-300"
+                    : "text-gray-300"
                 }`}
                 onClick={() => changePage(index + 1)} // Chama a função para mudar de página
               >
