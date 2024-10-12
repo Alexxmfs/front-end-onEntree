@@ -68,7 +68,7 @@ const CriarLocal = () => {
         <h4 className="text-gray-400 pb-8 pt-5 text-lg">
           Home / <span className="text-[#6d99fb]">Locais</span>
         </h4>
-        <h2 className="text-3xl pb-2 text-white mb-2">Adicionar novo local</h2>
+        <h2 className="text-3xl pb-2 text-white mb-2">Editar Local</h2>
         <p className="text-gray-400 mb-6">*Campos obrigatórios</p>
       </div>
 
