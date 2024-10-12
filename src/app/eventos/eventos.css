@@ -1,0 +1,45 @@
+body{
+    background-color: #191E28;
+}
+
+.cor-icon-search{
+    color: #6d99fb;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+.icon-options{
+    color: #6d99fb;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+}
+
+/* Estilos para o SweetAlert toast (com maior especificidade) */
+.custom-swal-toast.swal2-toast.swal2-show {
+    background-color: #2F3B28 !important;
+    border-left: 5px solid #99C766 !important;
+    color: #ecf0f1 !important;
+    border-radius: 8px;
+    width: 32rem;
+}
+  
+.custom-swal-toast .swal2-title {
+    color: #ecf0f1 !important;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+  
+.custom-swal-toast .swal2-html-container {
+    color: #ecf0f1 !important;
+    font-size: 1rem;
+}
+
+/* Remover animações do ícone */
+.custom-swal-toast .swal2-icon.swal2-success .swal2-success-circular-line,
+.custom-swal-toast .swal2-icon.swal2-success .swal2-success-fix,
+.custom-swal-toast .swal2-icon.swal2-success .swal2-success-line-tip,
+.custom-swal-toast .swal2-icon.swal2-success .swal2-success-line-long {
+    animation: none !important; /* Remove todas as animações */
+}
