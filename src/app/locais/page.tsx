@@ -46,10 +46,20 @@ const Locais = () => {
 
   useEffect(() => {
     if (success && !showAlert) {
-      showSuccessToast();
-      setShowAlert(true);
+      if (success === "true") { // Check the value of success
+        showSuccessToast("Um novo local foi adicionado");
+      } else if (success === "edited") { // Check for "edited" value
+        showSuccessToast("uma nova edição foi salva");
+      }
+      setShowAlert(true); // Prevent showing toast multiple times
+  
+      // Remove 'success' from the URL after processing.  This allows showing the correct toast on page refresh.
+      const updatedSearchParams = new URLSearchParams(searchParams);
+      updatedSearchParams.delete("success");
+      router.replace(`?${updatedSearchParams.toString()}`);
+  
     }
-  }, [success, showAlert]);
+  }, [success, showAlert, router, searchParams]);
 
   useEffect(() => {
     fetchLocais();
@@ -67,7 +77,7 @@ const Locais = () => {
       });
   };
 
-  const showSuccessToast = () => {
+  const showSuccessToast = (message: string) => { // Takes a message parameter
     toast.success(
       <div
         style={{ display: "flex", alignItems: "center", marginRight: "75px" }}
@@ -77,7 +87,7 @@ const Locais = () => {
           <div
             style={{ fontSize: "14px", color: "#ecf0f1", paddingTop: "4px" }}
           >
-            Um novo local foi adicionado
+            {message} {/* Display the passed message */}
           </div>
         </div>
       </div>,
