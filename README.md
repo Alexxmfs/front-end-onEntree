@@ -1,3 +1,15 @@
+<h1>OnEntrée</h1>
+
+![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=%20FINALIZADO&color=GREEN&style=for-the-badge)
+
+<img src="https://raw.githubusercontent.com/Alexxmfs/Personal-portfolio/master/Demo.PNG" />
+
+<p>O projeto "Meu Portfólio Pessoal" é um website desenvolvido usando as tecnologias HTML, CSS e JavaScript, com o objetivo de apresentar e destacar minhas habilidades, experiências e projetos anteriores.
+
+O layout do site é moderno, elegante e responsivo, adaptando-se a diferentes dispositivos e tamanhos de tela. Ele utiliza uma combinação cuidadosa de cores, tipografia e elementos visuais para transmitir minha identidade profissional e estilo único.
+
+A página inicial do portfólio apresenta uma introdução concisa e cativante sobre mim, destacando minha área de atuação, interesses e objetivos profissionais. Uma seção de destaque exibe alguns projetos recentes ou relevantes, com imagens e uma breve descrição de cada um.</p>
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
