@@ -18,7 +18,7 @@ interface Local {
   cidade: string;
   estado: string;
   nome_entrada: string;
-  data_atualizacao: string;
+  data_atualizacao: string; 
 }
 
 const Locais = () => {
