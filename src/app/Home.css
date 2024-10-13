@@ -71,3 +71,17 @@ body {
 .custom-swal-toast .swal2-icon.swal2-success .swal2-success-line-long {
   animation: none !important; /* Remove todas as animações */
 }
+
+
+
+.tamanho-futebol{
+  width: 78px;
+}
+
+.tamanho-feira{
+  width: 57px;
+}
+
+.tamanho-show{
+  width: 61px;
+}

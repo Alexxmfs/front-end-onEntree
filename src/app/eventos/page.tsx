@@ -11,21 +11,7 @@ import axios from "axios";
 import { toast, Toaster } from "react-hot-toast";
 import { useSearchParams, useRouter } from "next/navigation";
 import "./eventos.css";
-
-interface Evento {
-  id_evento: number;
-  nome: string;
-  data_evento: string;
-  horario_evento: string;
-  tipo: string;
-  id_local: number;
-  data_atualizacao: string;
-  local: {
-    nome: string;
-    endereco: string;
-    portões: string;
-  };
-}
+import Evento from "../../types/Evento";
 
 const Eventos = () => {
   const [eventos, setEventos] = useState<Evento[]>([]);
