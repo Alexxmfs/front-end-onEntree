@@ -249,12 +249,12 @@ const Eventos = () => {
                       <div
                           className={`rounded-lg px-2 py-2 font-bold  ${
                             evento.tipo === "Futebol"
-                              ? "bg-[#CAD6EC] text-[#10141D] tamanho-futebol" // Red for Futebol
+                              ? "bg-[#CAD6EC] text-[#10141D] tamanho-futebol"
                               : evento.tipo === "Show"
-                              ? "bg-[#61461F] text-[#FFFFFF] tamanho-show" // Brown for Show
+                              ? "bg-[#61461F] text-[#FFFFFF] tamanho-show" 
                               : evento.tipo === "Feira"
-                              ? "bg-[#e5b73e] text-[#10141D] tamanho-feira" // Yellow for Feira
-                              : "bg-gray-700" // Default if other type
+                              ? "bg-[#e5b73e] text-[#10141D] tamanho-feira" 
+                              : "bg-gray-700" 
                           }`}
                         >
                           {evento.tipo}
@@ -277,13 +277,13 @@ const Eventos = () => {
                             <ul className="py-1">
                               <li
                                 className="text-left px-4 py-3 text-gray-300 text-lg font-normal hover:bg-[#2f3746] rounded-t-lg cursor-pointer"
-                                onClick={() => handleEdit(evento.id_evento)} // Call handleEdit when "Edit" is clicked
+                                onClick={() => handleEdit(evento.id_evento)} 
                               >
                                 Edit
                               </li>
                               <li
                                 className="text-left px-4 py-3 text-gray-300 text-lg font-normal hover:bg-[#2f3746] rounded-b-lg cursor-pointer"
-                                onClick={() => handleDeleteConfirmation(evento)} // Chama a função de deletar
+                                onClick={() => handleDeleteConfirmation(evento)} 
                               >
                                 Apagar
                               </li>
@@ -321,10 +321,9 @@ const Eventos = () => {
           </div>
         </div>
 
-        {/* Modal de confirmação */}
         {isConfirmationModalOpen && (
           <div
-            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50" // Adiciona o fundo escuro
+            className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50" 
             onClick={() => setIsConfirmationModalOpen(false)}
           >
             <div

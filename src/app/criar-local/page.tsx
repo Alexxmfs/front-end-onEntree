@@ -8,11 +8,11 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "./criarLocal.css";
-import { useRouter } from "next/navigation"; // Importe o useRouter
+import { useRouter } from "next/navigation"; 
 
 
 const CriarLocal = () => {
-  const router = useRouter(); // Inicialize o router
+  const router = useRouter(); 
 
   const [nome, setNome] = useState("");
   const [apelido, setApelido] = useState("");
@@ -90,7 +90,6 @@ const CriarLocal = () => {
       setEntradas([]);
       setCatracas([]);
 
-      // alert("Local e dados associados criados com sucesso!");
       router.push("/locais?success=true");
     } catch (error) {
       console.error(error);

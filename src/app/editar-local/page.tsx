@@ -29,34 +29,34 @@ const EditarLocal = () => {
   const [telefone, setTelefone] = useState("");
   const [nome_entrada, setEntrada] = useState("");
   const [nome_catraca, setCatraca] = useState("");
-  const [entradas, setEntradas] = useState<string[]>([]); // Initialize entradas
-  const [catracas, setCatracas] = useState<string[]>([]); // Initialize catracas
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [entradas, setEntradas] = useState<string[]>([]); 
+  const [catracas, setCatracas] = useState<string[]>([]); 
+  const [isLoading, setIsLoading] = useState(true); 
 
   const addEntrada = () => {
     if (nome_entrada) {
       setEntradas([...entradas, nome_entrada]);
-      setEntrada(""); // Clear input after adding
+      setEntrada(""); 
     }
   };
 
   const addCatraca = () => {
     if (nome_catraca) {
       setCatracas([...catracas, nome_catraca]);
-      setCatraca(""); // Clear input after adding
+      setCatraca(""); 
     }
   };
 
   const removeEntrada = (index: number) => {
     const novasEntradas = [...entradas];
     novasEntradas.splice(index, 1);
-    setEntradas(novasEntradas); // Update state with the new list
+    setEntradas(novasEntradas); 
   };
 
   const removeCatraca = (index: number) => {
     const novasCatracas = [...catracas];
     novasCatracas.splice(index, 1);
-    setCatracas(novasCatracas); // Update state with the new list
+    setCatracas(novasCatracas); 
   };
 
   useEffect(() => {
@@ -85,15 +85,15 @@ const EditarLocal = () => {
       setTelefone(localData.telefone);
       setEntradas(
         localData.nome_entrada ? localData.nome_entrada.split(",") : []
-      ); // Assuming nome_entrada could be a comma-separated string.
+      ); 
       setCatracas(
         localData.nome_catraca ? localData.nome_catraca.split(",") : []
       );
 
-      setIsLoading(false); // Data fetched, set loading to false
+      setIsLoading(false); 
     } catch (error) {
       console.error("Error fetching local data:", error);
-      setIsLoading(false); // Set loading to false even on error
+      setIsLoading(false); 
     }
   };
 
@@ -117,8 +117,8 @@ const EditarLocal = () => {
       endereco,
       email,
       telefone,
-      nome_entrada: entradas.join(','), // send as comma-separated string
-      nome_catraca: catracas.join(','), // send as comma-separated string
+      nome_entrada: entradas.join(','), 
+      nome_catraca: catracas.join(','), 
     };
 
     try {
@@ -128,7 +128,7 @@ const EditarLocal = () => {
       );
 
       if (response.status === 200) {
-        router.push("/locais?success=edited"); // Correct redirect here
+        router.push("/locais?success=edited"); 
       } else {
         // Error handling
         console.error("Error updating local:", response.status);
@@ -139,7 +139,7 @@ const EditarLocal = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>; // Or a better loading indicator
+    return <div>Loading...</div>; 
   }
 
   return (

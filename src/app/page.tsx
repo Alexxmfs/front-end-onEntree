@@ -163,7 +163,7 @@ export default function Home() {
       } catch (error) {
         console.error("Erro ao deletar evento:", error);
         toast.error("Erro ao deletar o evento.");
-      } finally {  // Ensure modal closes and state is reset
+      } finally { 
         setIsConfirmationModalOpen(false);
         setEventoToBeDeleted(null);
       }
@@ -280,16 +280,16 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="bg-[#10141D] p-6 rounded-2xl shadow-lg overflow-x-auto"> {/* Added overflow-x-auto */}
+        <div className="bg-[#10141D] p-6 rounded-2xl shadow-lg overflow-x-auto">
           <div className="flex items-center justify-between pb-4">
             <h3 className="pt-5 text-2xl pb-2">Ultimos eventos adicionados</h3>
             <a href="eventos" className="text-[#6D99FB] text-lg font-normal pr-1 underline">
               Ver todos
             </a>
           </div>
-          <div className="w-full bg-[#10141D] rounded-xl"> {/* Ensures table takes full width */}
-            <table className="w-full table-auto"> {/* Added w-full */}
-              <tbody >  {/* Added tbody */}
+          <div className="w-full bg-[#10141D] rounded-xl"> 
+            <table className="w-full table-auto"> 
+              <tbody >  
                 {Array.isArray(eventos) && eventos.length > 0 ? (
                   eventos.map((evento, index) => (
                     <tr
@@ -327,7 +327,7 @@ export default function Home() {
 
                             <li
                                 className="text-left px-4 py-3 text-gray-300 text-lg font-normal hover:bg-[#2f3746] rounded-t-lg cursor-pointer"
-                                onClick={() => handleEdit(evento.id_evento)} // Correctly pass evento.id_evento
+                                onClick={() => handleEdit(evento.id_evento)} 
                               >
                                 Edit
                               </li>

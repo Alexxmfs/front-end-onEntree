@@ -1,4 +1,3 @@
-// types/locais.ts
 interface Local {
     id_local: number;
     nome: string;

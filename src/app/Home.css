@@ -26,10 +26,6 @@ body {
   margin-top: -10px;
 }
 
-
-
-
-
 .cor-icon-search{
   color: #6d99fb;
   font-size: 20px;
@@ -44,7 +40,6 @@ body {
   height: 20px;
 }
 
-/* Estilos para o SweetAlert toast (com maior especificidade) */
 .custom-swal-toast.swal2-toast.swal2-show {
   background-color: #2F3B28 !important;
   border-left: 5px solid #99C766 !important;
@@ -64,15 +59,12 @@ body {
   font-size: 1rem;
 }
 
-/* Remover animações do ícone */
 .custom-swal-toast .swal2-icon.swal2-success .swal2-success-circular-line,
 .custom-swal-toast .swal2-icon.swal2-success .swal2-success-fix,
 .custom-swal-toast .swal2-icon.swal2-success .swal2-success-line-tip,
 .custom-swal-toast .swal2-icon.swal2-success .swal2-success-line-long {
-  animation: none !important; /* Remove todas as animações */
+  animation: none !important; 
 }
-
-
 
 .tamanho-futebol{
   width: 78px;
@@ -87,82 +79,51 @@ body {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
   .grid-cols-1 md:grid-cols-2 {
-    grid-template-columns: 1fr; /* Uma coluna */
+    grid-template-columns: 1fr; 
   }
 
   .pl-40 {
-    padding-left: 20px; /* Reduzir o padding */
+    padding-left: 20px; 
   }
 
   .pr-40 {
-    padding-right: 20px; /* Reduzir o padding */
+    padding-right: 20px; 
   }
 
   .w-1/12 {
-    width: 30px; /* Ajustar o tamanho do avatar */
+    width: 30px; 
   }
 }
 
 /* Estilos para tablets */
 @media (min-width: 768px) and (max-width: 1024px) {
   .grid-cols-1 md:grid-cols-2 {
-    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    grid-template-columns: 1fr 1fr; 
   }
 }
 
-/* Estilos para telas maiores (notebooks, desktops) */
 @media (min-width: 1024px) {
   .grid-cols-1 md:grid-cols-2 {
-    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    grid-template-columns: 1fr 1fr; 
   }
 }
 
-/* Ajustes para o tamanho do avatar */
 .w-1/12 {
-  width: 50px; /* Ajustar o tamanho do avatar */
+  width: 50px; 
 }
 
-
-
-
-
-/* Estilos para telas menores (celulares) */
 @media (max-width: 768px) {
   .text-4xl {
-    font-size: 2rem; /* Reduzir o tamanho da fonte */
+    font-size: 2rem; 
   }
 
   .text-3xl {
-    font-size: 1.5rem; /* Reduzir o tamanho da fonte */
+    font-size: 1.5rem; 
   }
 
   .text-lg {
-    font-size: 1rem; /* Reduzir o tamanho da fonte */
+    font-size: 1rem; 
   }
 }

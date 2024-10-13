@@ -6,7 +6,7 @@
     faChevronDown
   } from "@fortawesome/free-solid-svg-icons";
   import "./criarEvento.css";
-  import { useRouter } from "next/navigation"; // Importe o useRouter
+  import { useRouter } from "next/navigation"; 
 
   interface Local {
     id_local: number;
@@ -14,7 +14,7 @@
   }
 
   const CriarEvento = () => {
-    const router = useRouter(); // Inicialize o router
+    const router = useRouter(); 
 
     const [nome, setNome] = useState("");
     const [dataEvento, setDataEvento] = useState("");
@@ -22,11 +22,11 @@
     const [tipo, setTipo] = useState("");
     const [email, setEmail] = useState("");
     const [telefone, setTelefone] = useState("");
-    const [locais, setLocais] = useState<Local[]>([]); // Estado para armazenar a lista de locais
-    const [selectedLocalId, setSelectedLocalId] = useState<number | null>(null); // Estado para armazenar o ID do local selecionado
+    const [locais, setLocais] = useState<Local[]>([]); 
+    const [selectedLocalId, setSelectedLocalId] = useState<number | null>(null); 
 
     useEffect(() => {
-      fetchLocais(); // Carrega a lista de locais ao iniciar o componente
+      fetchLocais(); 
     }, []);
 
     const fetchLocais = async () => {
@@ -49,7 +49,7 @@
           tipo,
           email,
           telefone,
-          id_local: selectedLocalId, // Envia o ID do local selecionado
+          id_local: selectedLocalId, 
         });
 
         setNome("");
@@ -58,9 +58,8 @@
         setTipo("");
         setEmail("");
         setTelefone("");
-        setSelectedLocalId(null); // Limpa o local selecionado
+        setSelectedLocalId(null); 
 
-        // alert("Evento e dados associados criados com sucesso!");
         router.push("/eventos?success=true");
       } catch (error) {
         console.error(error);
@@ -148,8 +147,8 @@
                 <div className="relative">
                   <select
                     className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
-                    value={selectedLocalId ? selectedLocalId.toString() : ""} // Certifique-se de que o valor seja uma string
-                    onChange={(e) => setSelectedLocalId(parseInt(e.target.value))} // Converter o valor para número
+                    value={selectedLocalId ? selectedLocalId.toString() : ""}
+                    onChange={(e) => setSelectedLocalId(parseInt(e.target.value))} 
                     required
                   >
                     <option value="">Selecione um local</option>
