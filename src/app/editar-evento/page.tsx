@@ -161,9 +161,8 @@
                     required
                   >
                     <option value="">Selecione um tipo</option>
-                    <option value="show">Show</option>
-                    <option value="futebol">Futebol</option>
-                    <option value="feira">Feira</option>
+                    <option value="Show">Show</option>
+                    <option value="Futebol">Futebol</option>
                   </select>
                   <FontAwesomeIcon
                     className="absolute right-2 top-3 text-gray-400 text-lg w-4"
