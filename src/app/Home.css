@@ -85,3 +85,84 @@ body {
 .tamanho-show{
   width: 61px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Estilos para telas menores (celulares) */
+@media (max-width: 768px) {
+  .grid-cols-1 md:grid-cols-2 {
+    grid-template-columns: 1fr; /* Uma coluna */
+  }
+
+  .pl-40 {
+    padding-left: 20px; /* Reduzir o padding */
+  }
+
+  .pr-40 {
+    padding-right: 20px; /* Reduzir o padding */
+  }
+
+  .w-1/12 {
+    width: 30px; /* Ajustar o tamanho do avatar */
+  }
+}
+
+/* Estilos para tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .grid-cols-1 md:grid-cols-2 {
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+  }
+}
+
+/* Estilos para telas maiores (notebooks, desktops) */
+@media (min-width: 1024px) {
+  .grid-cols-1 md:grid-cols-2 {
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+  }
+}
+
+/* Ajustes para o tamanho do avatar */
+.w-1/12 {
+  width: 50px; /* Ajustar o tamanho do avatar */
+}
+
+
+
+
+
+/* Estilos para telas menores (celulares) */
+@media (max-width: 768px) {
+  .text-4xl {
+    font-size: 2rem; /* Reduzir o tamanho da fonte */
+  }
+
+  .text-3xl {
+    font-size: 1.5rem; /* Reduzir o tamanho da fonte */
+  }
+
+  .text-lg {
+    font-size: 1rem; /* Reduzir o tamanho da fonte */
+  }
+}

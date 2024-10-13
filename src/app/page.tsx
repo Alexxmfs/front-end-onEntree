@@ -195,11 +195,9 @@ export default function Home() {
               <Image src={iconHome} alt="Home" className="w-6" />
               <h2 className="pl-3 text-3xl">Locais</h2>
             </div>
-            <div className="btn-conferir-local">
-              <a href="locais" className="bg-[#CAD6EC] hover:bg-green-700 text-[#10141D] py-2 px-4 rounded ml-auto font-semibold text-lg">
-                Conferir locais
-              </a>
-            </div>
+            <a href="locais" className="bg-[#CAD6EC] hover:bg-[#88ffac] text-[#10141D] py-2 px-4 rounded ml-auto font-semibold text-lg btn-conferir-local">
+              Conferir locais
+            </a>
           </div>
           <p className="descricao text-gray-200 text-lg pl-2">
             Confira todos os locais cadastrados!
@@ -229,7 +227,7 @@ export default function Home() {
               Ver todos
             </a>
           </div>
-          <div className="w-full bg-[#10141D] rounded-xl">
+          <div className="w-full bg-[#10141D] rounded-xl overflow-x-auto">
             <table className="w-full table-auto">
               <tbody>
                 {Array.isArray(locais) && locais.length > 0 ? (
