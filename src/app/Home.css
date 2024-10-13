@@ -17,3 +17,11 @@ body {
     z-index: -1; 
   }
   
+
+.btn-conferir-local{
+  margin-top: 20px;
+}
+
+.descricao{
+  margin-top: -10px;
+}
