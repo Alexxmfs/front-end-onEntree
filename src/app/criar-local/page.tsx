@@ -6,13 +6,14 @@ import {
   faChevronDown,
   faPlus,
   faXmark,
+  faExclamation, // Importando o ícone de exclamação
 } from "@fortawesome/free-solid-svg-icons";
 import "./criarLocal.css";
-import { useRouter } from "next/navigation"; 
-
+import { useRouter } from "next/navigation";
+import { toast, Toaster } from "react-hot-toast";
 
 const CriarLocal = () => {
-  const router = useRouter(); 
+  const router = useRouter();
 
   const [nome, setNome] = useState("");
   const [apelido, setApelido] = useState("");
@@ -56,8 +57,103 @@ const CriarLocal = () => {
     setCatracas(novasCatracas);
   };
 
+  const validateCnpj = (cnpj: string) => {
+    const regex = /^\d{14}$/;
+    return regex.test(cnpj);
+  };
+
+  const validateCep = (cep: string) => {
+    const regex = /^\d{8}$/;
+    return regex.test(cep);
+  };
+
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validateTelefone = (telefone: string) => {
+    const regex = /^\d{10,11}$/;
+    return regex.test(telefone);
+  };
+
+  const showErrorToast = (message: string) => {
+    toast.error(
+      <div
+        style={{ display: "flex", alignItems: "center", marginRight: "20px" }} // Reduzi a margem para ajustar o layout
+      >
+        <div> {/* Adicionei margem para separar o texto do ícone */}
+          <span style={{ fontSize: "18px", fontWeight: "600" }}>Erro</span>
+          <div
+            style={{ fontSize: "14px", color: "#ecf0f1", paddingTop: "4px" }}
+          >
+            <span style={{ whiteSpace: "nowrap" }}>{message}</span>
+          </div>
+        </div>
+      </div>,
+      {
+        duration: 3000,
+        position: "bottom-left",
+        style: {
+          backgroundColor: "#461527",
+          color: "#ecf0f1",
+          borderLeft: "5px solid #F6285F",
+          padding: "12px",
+          borderRadius: "8px",
+          display: "flex",
+          alignItems: "center",
+          width: "600px", // Reduzi a largura para ficar mais compacto
+        },
+        icon: (
+          <div
+            style={{
+              backgroundColor: "#F6285F",
+              paddingTop: "2px",
+              paddingLeft: "8px",
+              paddingRight: "8px",
+              paddingBottom: "2px",
+              borderRadius: "50%", // Torna o div circular
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ color: "#2F3B28", fontSize: "20px" }}> {/* Aumentei o tamanho da fonte do ícone */}
+              <FontAwesomeIcon icon={faExclamation} />
+            </span>
+          </div>
+        ),
+      }
+    );
+  };
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+
+    if (!nome || !tipo || !cidade || !estado || !cep || !endereco || !email || !telefone) {
+      showErrorToast("Por favor, preencha os campos obrigatórios.");
+      return;
+    }
+
+    if (cnpj && !validateCnpj(cnpj)) {
+      showErrorToast("CNPJ inválido.");
+      return;
+    }
+
+    if (!validateCep(cep)) {
+      showErrorToast("CEP inválido.");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      showErrorToast("E-mail inválido.");
+      return;
+    }
+
+    if (!validateTelefone(telefone)) {
+      showErrorToast("Telefone inválido.");
+      return;
+    }
 
     try {
       await axios.post("http://localhost:5000/criar-locais", {
@@ -93,12 +189,13 @@ const CriarLocal = () => {
       router.push("/locais?success=true");
     } catch (error) {
       console.error(error);
-      alert("Erro ao criar local e dados associados");
+      showErrorToast("Erro ao criar local e dados associados");
     }
   };
 
   return (
     <div className="bg-[#191E28] min-h-screen p-8">
+      <Toaster />
       <div className="max-w-3xl mx-auto">
         <h4 className="text-gray-400 pb-8 pt-5 text-lg">
           Home / <span className="text-[#6d99fb]">Locais</span>
@@ -143,7 +240,7 @@ const CriarLocal = () => {
                   className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value)}
-                  required
+
                 >
                   <option value="">Selecione um tipo</option>
                   <option value="restaurante">Restaurante</option>
@@ -193,7 +290,7 @@ const CriarLocal = () => {
                   className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
                   value={estado}
                   onChange={(e) => setEstado(e.target.value)}
-                  required
+
                 >
                   <option value="">Selecione um estado</option>
                   <option value="SP">São Paulo</option>
@@ -286,7 +383,7 @@ const CriarLocal = () => {
                 />
                 <button
                   type="button"
-                  className="px-3 py-2 bg-[#051D41] text-white rounded hover:bg-b"
+                  className="px-3 py-2 bg-[#051D41] text-white rounded hover:bg-blue-600"
                   onClick={addEntrada}
                 >
                   <FontAwesomeIcon icon={faPlus} />
