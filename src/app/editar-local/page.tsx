@@ -5,9 +5,11 @@ import {
   faChevronDown,
   faPlus,
   faXmark,
+  faExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast, Toaster } from "react-hot-toast";
 import "./criarLocal.css";
 
 const EditarLocal = () => {
@@ -29,34 +31,34 @@ const EditarLocal = () => {
   const [telefone, setTelefone] = useState("");
   const [nome_entrada, setEntrada] = useState("");
   const [nome_catraca, setCatraca] = useState("");
-  const [entradas, setEntradas] = useState<string[]>([]); 
-  const [catracas, setCatracas] = useState<string[]>([]); 
-  const [isLoading, setIsLoading] = useState(true); 
+  const [entradas, setEntradas] = useState<string[]>([]);
+  const [catracas, setCatracas] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const addEntrada = () => {
     if (nome_entrada) {
       setEntradas([...entradas, nome_entrada]);
-      setEntrada(""); 
+      setEntrada("");
     }
   };
 
   const addCatraca = () => {
     if (nome_catraca) {
       setCatracas([...catracas, nome_catraca]);
-      setCatraca(""); 
+      setCatraca("");
     }
   };
 
   const removeEntrada = (index: number) => {
     const novasEntradas = [...entradas];
     novasEntradas.splice(index, 1);
-    setEntradas(novasEntradas); 
+    setEntradas(novasEntradas);
   };
 
   const removeCatraca = (index: number) => {
     const novasCatracas = [...catracas];
     novasCatracas.splice(index, 1);
-    setCatracas(novasCatracas); 
+    setCatracas(novasCatracas);
   };
 
   useEffect(() => {
@@ -85,15 +87,15 @@ const EditarLocal = () => {
       setTelefone(localData.telefone);
       setEntradas(
         localData.nome_entrada ? localData.nome_entrada.split(",") : []
-      ); 
+      );
       setCatracas(
         localData.nome_catraca ? localData.nome_catraca.split(",") : []
       );
 
-      setIsLoading(false); 
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching local data:", error);
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
@@ -102,6 +104,20 @@ const EditarLocal = () => {
 
     if (!idLocal) {
       console.error("Local ID not found.");
+      return;
+    }
+
+    if (
+      !nome ||
+      !tipo ||
+      !cidade ||
+      !estado ||
+      !cep ||
+      !endereco ||
+      !email ||
+      !telefone
+    ) {
+      showErrorToast("não foi possível salvar a edição");
       return;
     }
 
@@ -117,8 +133,8 @@ const EditarLocal = () => {
       endereco,
       email,
       telefone,
-      nome_entrada: entradas.join(','), 
-      nome_catraca: catracas.join(','), 
+      nome_entrada: entradas.join(","),
+      nome_catraca: catracas.join(","),
     };
 
     try {
@@ -128,7 +144,7 @@ const EditarLocal = () => {
       );
 
       if (response.status === 200) {
-        router.push("/locais?success=edited"); 
+        router.push("/locais?success=edited");
       } else {
         // Error handling
         console.error("Error updating local:", response.status);
@@ -138,12 +154,61 @@ const EditarLocal = () => {
     }
   };
 
+  const showErrorToast = (message: string) => {
+    toast.error(
+      <div
+        style={{ display: "flex", alignItems: "center", marginRight: "75px" }}
+      >
+        <div>
+          <span style={{ fontSize: "18px", fontWeight: "600" }}>Erro</span>
+          <div
+            style={{ fontSize: "14px", color: "#ecf0f1", paddingTop: "4px" }}
+          >
+            <span style={{ whiteSpace: "nowrap" }}>{message}</span>
+          </div>
+        </div>
+      </div>,
+      {
+        duration: 3000,
+        position: "bottom-left",
+        style: {
+          backgroundColor: "#461527",
+          color: "#ecf0f1",
+          borderLeft: "5px solid #F6285F",
+          padding: "12px",
+          borderRadius: "8px",
+          display: "flex",
+          alignItems: "center",
+          width: "800px",
+        },
+        icon: (
+          <div
+            style={{
+              backgroundColor: "#F6285F",
+              width: "40px",
+              height: "20px",
+              borderRadius: "50%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <span style={{ color: "#2F3B28", fontSize: "15px" }}>
+              <FontAwesomeIcon icon={faExclamation} />
+            </span>
+          </div>
+        ),
+      }
+    );
+  };
+
   if (isLoading) {
-    return <div>Loading...</div>; 
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="bg-[#191E28] min-h-screen p-8">
+      <Toaster />
       <div className="max-w-3xl mx-auto">
         <h4 className="text-gray-400 pb-8 pt-5 text-lg">
           Home / <span className="text-[#6d99fb]">Locais</span>
@@ -166,7 +231,6 @@ const EditarLocal = () => {
                 onChange={(e) => setNome(e.target.value)}
                 placeholder="Informe o nome do local"
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
-                required
               />
             </div>
             <div>
@@ -189,7 +253,6 @@ const EditarLocal = () => {
                   className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value)}
-                  required
                 >
                   <option value="">Selecione um tipo</option>
                   <option value="restaurante">Restaurante</option>
@@ -228,7 +291,6 @@ const EditarLocal = () => {
                 value={cidade}
                 onChange={(e) => setCidade(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
-                required
               />
             </div>
             <div>
@@ -240,7 +302,6 @@ const EditarLocal = () => {
                   className="w-full p-2 bg-gray-700 text-white rounded appearance-none focus:outline-none focus:ring focus:ring-blue-500"
                   value={estado}
                   onChange={(e) => setEstado(e.target.value)}
-                  required
                 >
                   <option value="">Selecione um estado</option>
                   <option value="SP">São Paulo</option>
@@ -262,7 +323,6 @@ const EditarLocal = () => {
                 value={cep}
                 onChange={(e) => setCep(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
-                required
               />
             </div>
             <div>
@@ -283,7 +343,6 @@ const EditarLocal = () => {
                 value={endereco}
                 onChange={(e) => setEndereco(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
-                required
               />
             </div>
           </div>
@@ -302,7 +361,6 @@ const EditarLocal = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
-                required
               />
             </div>
             <div>
@@ -313,7 +371,6 @@ const EditarLocal = () => {
                 value={telefone}
                 onChange={(e) => setTelefone(e.target.value)}
                 className="w-full p-2 bg-gray-700 text-white rounded focus:outline-none focus:ring focus:ring-blue-500"
-                required
               />
             </div>
           </div>
@@ -406,7 +463,8 @@ const EditarLocal = () => {
           <div className="h-px bg-[#333B49] my-4" />
 
           <div className="flex justify-end space-x-4 pt-3">
-            <a href="/locais"
+            <a
+              href="/locais"
               type="button"
               className="px-8 py-2 bg-[#10141d] border border-[#EBF0F9] text-[#EBF0F9] text-lg rounded hover:bg-[#1c1f24] focus:outline-none"
             >

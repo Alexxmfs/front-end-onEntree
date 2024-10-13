@@ -15,7 +15,7 @@ const Navbar = () => {
         </a>
         <ul className="my-navbar-nav">
           <li className="nav-item">
-            <a href="/" className="nav-link">Home</a>
+            <a href="/" className="nav-link hover:underline">Home</a>
           </li>
           <li className="nav-item">
             <a href="/eventos" className="nav-link">Eventos</a>
