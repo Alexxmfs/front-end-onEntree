@@ -2,6 +2,18 @@ body{
     background-color: #191E28;
 }
 
+.tamanho-futebol{
+    width: 78px;
+}
+
+.tamanho-feira{
+    width: 57px;
+}
+
+.tamanho-show{
+    width: 61px;
+}
+
 .cor-icon-search{
     color: #6d99fb;
     font-size: 20px;

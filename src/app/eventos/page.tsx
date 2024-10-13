@@ -259,7 +259,21 @@ const Eventos = () => {
                       } text-gray-300`}
                     >
                       <td className="p-3">{evento.nome}</td>
-                      <td className="p-3">{evento.tipo}</td>
+                      <td className="p-3">
+                      <div
+                          className={`rounded-lg px-2 py-2 font-bold  ${
+                            evento.tipo === "Futebol"
+                              ? "bg-[#CAD6EC] text-[#10141D] tamanho-futebol" // Red for Futebol
+                              : evento.tipo === "Show"
+                              ? "bg-[#61461F] text-[#FFFFFF] tamanho-show" // Brown for Show
+                              : evento.tipo === "Feira"
+                              ? "bg-[#e5b73e] text-[#10141D] tamanho-feira" // Yellow for Feira
+                              : "bg-gray-700" // Default if other type
+                          }`}
+                        >
+                          {evento.tipo}
+                        </div>
+                      </td>
                       <td className="p-3">{evento.local?.nome}</td>
                       <td className="p-3">{evento.local?.endereco}</td>
                       <td className="p-3">{evento.local?.portões}</td>
